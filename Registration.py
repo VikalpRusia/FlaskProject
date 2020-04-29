@@ -47,17 +47,17 @@ class Dbms(object):
             self.db.rollback()
             self.db.close()
             if re.search(r'PRIMARY\'$', ex.args[1]):
-                return "username already exists\ntry again with different username"
+                return 3
             if re.search(r"email'$", ex.args[1], ):
-                return "email already registered\ntry again with different email"
+                return 2
 
         except EmailError:
             self.db.rollback()
             self.db.close()
-            return "Error in email"
+            return 1
 
         self.db.close()
-        return "successfully created move to login page"
+        return 0
 
     def log_in(self):
         self.cursor.execute(
