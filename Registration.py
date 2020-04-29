@@ -27,14 +27,12 @@ class Dbms(object):
         return password
 
     def registering(self):
-        print(today)
         try:
             k = re.findall("@", self.email)
 
             if len(k) == 1:
                 if today > datetime.strptime(self.dob, '%Y-%m-%d').date():
-                    q = (
-                        f"insert into registered values('{self.email}',{self.password},'{self.username}','{self.dob}','{self.name}')")
+                    q = f"insert into registered values('{self.email}',{self.password},'{self.username}','{self.dob}','{self.name}') "
                     self.cursor.execute(q)
                     self.db.commit()
                 else:
