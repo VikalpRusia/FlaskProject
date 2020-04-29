@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" style="background: black">
+<head>
+    <meta charset="UTF-8">
+    <title>forget_password</title>
+    <meta name="Author" content="Vikalp Rusia">
+    <link rel="stylesheet" type="text/css" href="../static/front.css">
+</head>
+<body style="background: black;color: white">
+<form action=" http://127.0.0.1:5000/forget_password/" method="post">
+    <p class="heading"><b>Forget password</b></p>
+    <table class="table" >
+        <tr>
+            <td>
+                <label for="username">Email :</label>
+            </td>
+            <td class="data">
+                <input class="input" id="username" name="username" required type="text" value="{{email}}">
+            </td>
+            <td style="text-align: center;font-size: 50%">
+                {{email_message}}
+            </td>
+        </tr>
+
+        <tr >
+            <td class="data">
+                <label for="name">Full Name :</label>
+            </td>
+            <td class="data">
+                <input class="input" id="name" name="name" required type="text" value="{{name}}">
+            </td>
+            <td style="text-align: center;font-size: 50%">
+                {{name_message}}
+            </td>
+
+        </tr>
+        <tr >
+            <td class="data">
+                <label for="dob" title="Date of Birth">Dob :</label>
+            </td>
+            <td class="data">
+                <input class="input" id="dob" name="dob" required type="date" value="{{dob}}">
+            </td>
+
+        </tr>
+        <tr >
+            <td class="data">
+                <label for="password">New Password :</label>
+            </td>
+            <td class="data">
+                <input class="input" id="password" name="password" required type="password">
+            </td>
+            <td style="text-align: center;font-size: 50%">
+                {{password_message}}
+            </td>
+
+        </tr>
+        <tr>
+
+            <td colspan="3" style="text-align: center">
+                <p></p>
+                <input style="vertical-align: 100%" type="submit" value="Change password">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: center;font-size: 50%">
+                {{message}}
+            </td>
+        </tr>
+
+    </table>
+</form>
+<p class="link">
+    <a href="http://127.0.0.1:5000/login" style="color: yellow;" target="_self" >Log in</a>
+
+</p>
+</body>
+</html>
