@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import re
 import pymysql
 from hashlib import sha1
