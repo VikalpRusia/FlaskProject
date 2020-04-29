@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" style="background: black">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome {{username}}</title>
+    <meta content="600; url=http://127.0.0.1:5000/" http-equiv="refresh">
+    <meta content="Vikalp Rusia" name="Author">
+    <link rel="stylesheet" type="text/css" href="../static/front.css">
+</head>
+<body style="background: black;color: white">
+    <p class="heading"><b>Home Page</b></p>
+    <table class="table">
+        <tr>
+            <td>
+                Username :
+            </td>
+            <td>
+                {{username}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Email :
+            </td>
+            <td>
+                {{email}}
+            </td>
+        </tr>
+        <tr>
+            <td title="Date Of Birth">
+                Dob :
+            </td>
+            <td>
+                {{dob}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Name :
+            </td>
+            <td>
+                {{name}}
+            </td>
+        </tr>
+    </table>
+<p class="link">
+    <a href="http://127.0.0.1:5000/login" style="color: yellow;" target="_self" >Log out</a>
+</p>
+</body>
+</html>
