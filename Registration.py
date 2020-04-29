@@ -28,9 +28,9 @@ class Dbms(object):
 
     def registering(self):
         try:
-            k = re.findall("@", self.email)
+            k = re.match("$[^@]@[^@]$", self.email)
 
-            if len(k) == 1:
+            if k is not None:
                 if today > datetime.strptime(self.dob, '%Y-%m-%d').date():
                     q = f"insert into registered values('{self.email}',{self.password},'{self.username}','{self.dob}','{self.name}') "
                     self.cursor.execute(q)
