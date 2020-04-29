@@ -50,19 +50,25 @@ def __database__(*args):
         k = Registration.Dbms(username, password, email, dob, name)
         value = k.registering()
         if value == 0:
-            return __database__(username,password)
-        elif value==1:
-            return render_template('register.html',email_message="enter valid email")
-        elif value==2:
-            return render_template('register.html',email_message="email already registered")
-        elif value==3:
-            return render_template('register.html',username_message="username already in use")
+            return __database__(username, password)
+        elif value == 1:
+            return render_template('register.html', email_message="enter valid email", username=username, dob=dob,
+                                   name=name)
+        elif value == 2:
+            return render_template('register.html', email_message="email already registered", username=username,
+                                   dob=dob, name=name)
+        elif value == 3:
+            return render_template('register.html', username_message="username already in use", email=email, dob=dob,
+                                   name=name)
+        elif value == 4:
+            return render_template('register.html', dob_message="enter valid dob", username=username, email=email,
+                                   name=name)
     else:
         username, password = args
         k = Registration.Dbms(username, password)
         value = k.log_in()
         if value is None:
-            return render_template('login.html',message="invalid username or password")
+            return render_template('login.html', message="invalid username or password")
         else:
             return render_template('home.html', username=username, email=value[0], dob=value[1], name=value[2])
 

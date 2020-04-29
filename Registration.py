@@ -1,8 +1,10 @@
 import re
 import pymysql
 from hashlib import sha1
+from datetime import datetime
 
 prompt = "> "
+today = datetime.today().date()
 
 
 class Dbms(object):
@@ -11,11 +13,11 @@ class Dbms(object):
         self.db = pymysql.connect("localhost", "registration", "project")
         self.cursor = self.db.cursor()
         self.cursor.execute("use user")
-        if len(args)==5:
-            self.username , self.password, self.email, self.dob,self.name = args
-            self.password=Dbms.passcode(self.password)
-        else :
-            self.username, self.password =args
+        if len(args) == 5:
+            self.username, self.password, self.email, self.dob, self.name = args
+            self.password = Dbms.passcode(self.password)
+        else:
+            self.username, self.password = args
             self.password = Dbms.passcode(self.password)
 
     @staticmethod
@@ -25,36 +27,29 @@ class Dbms(object):
         return password
 
     def registering(self):
-        class EmailError(Exception):
-            def __init__(self):
-                self.message = "Error in email"
-
-            def __str__(self):
-                return self.message
-
+        print(today)
         try:
             k = re.findall("@", self.email)
 
             if len(k) == 1:
-                q=(
-                    f"insert into registered values('{self.email}',{self.password},'{self.username}','{self.dob}','{self.name}')")
-                self.cursor.execute(q)
-                self.db.commit()
+                if today > datetime.strptime(self.dob, '%Y-%m-%d').date():
+                    q = (
+                        f"insert into registered values('{self.email}',{self.password},'{self.username}','{self.dob}','{self.name}')")
+                    self.cursor.execute(q)
+                    self.db.commit()
+                else:
+                    self.closing()
+                    return 4
             else:
-                raise EmailError()
+                self.closing()
+                return 1
 
         except pymysql.err.IntegrityError as ex:
-            self.db.rollback()
-            self.db.close()
+            self.closing()
             if re.search(r'PRIMARY\'$', ex.args[1]):
                 return 3
             if re.search(r"email'$", ex.args[1], ):
                 return 2
-
-        except EmailError:
-            self.db.rollback()
-            self.db.close()
-            return 1
 
         self.db.close()
         return 0
@@ -68,3 +63,7 @@ class Dbms(object):
             return self.cursor.fetchone()
         else:
             return None
+
+    def closing(self):
+        self.db.rollback()
+        self.db.close()
