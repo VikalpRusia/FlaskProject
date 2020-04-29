@@ -16,6 +16,8 @@ class Dbms(object):
         if len(args) == 5:
             self.username, self.password, self.email, self.dob, self.name = args
             self.password = Dbms.passcode(self.password)
+        elif len(args) == 4:
+            self.email,self.dob,self.npassword,self.name=args
         else:
             self.username, self.password = args
             self.password = Dbms.passcode(self.password)
@@ -53,10 +55,11 @@ class Dbms(object):
         return 0
 
     def log_in(self):
-        self.cursor.execute(
-            f"select if({self.password}=(Select password from registered where username='{self.username}'),1,0)")
-
-        if self.cursor.fetchone()[0] == 1:
+        q=(
+            f"select (select if({self.password}=(Select password from registered where username='{self.username}'),1,0))"+
+            f"+(select if({self.password}=(Select password from registered where email='{self.username}'),1,0))")
+        self.cursor.execute(q)
+        if self.cursor.fetchone()[0] != 0:
             self.cursor.execute(f"select email,Dob,name from registered where username='{self.username}'")
             return self.cursor.fetchone()
         else:
@@ -65,3 +68,16 @@ class Dbms(object):
     def closing(self):
         self.db.rollback()
         self.db.close()
+
+    def forget(self):
+        q = (
+                f"select (select if('{self.dob}'=(Select dob from registered where email='{self.email}'),1,0))" +
+                f"+(select if('{self.name}'=(Select name from registered where email='{self.email}'),1,0))")
+        self.cursor.execute(q)
+        if self.cursor.fetchone()[0] == 2:
+            self.cursor.execute(f"update registered set password={Dbms.passcode(self.npassword)} where email='{self.email}'")
+            return 0
+        else:
+            return 1
+
+

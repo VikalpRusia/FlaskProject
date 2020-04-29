@@ -73,9 +73,27 @@ def __database__(*args):
             return render_template('home.html', username=username, email=value[0], dob=value[1], name=value[2])
 
 
-@app.route('/forget_password')
+@app.route('/forget_password/', methods=['POST', 'GET'])
 def forget_password():
-    return "forget password"
+    if request.method == 'GET':
+        email = request.args.get('username')
+        dob = request.args.get('dob')
+        npassword = request.args.get('password')
+        name = request.args.get('name')
+    else:
+        email = request.form['username']
+        dob = request.form['dob']
+        npassword = request.form['password']
+        name = request.form['name']
+    if email is None:
+        return render_template('forget.html')
+    else:
+        k = Registration.Dbms(email, dob, npassword, name)
+        value = k.forget()
+        if value == 0:
+            return render_template('forget.html', message="successful")
+        else:
+            return render_template('forget.html', message="unsuccessful")
 
 
 if __name__ == "__main__":
