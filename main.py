@@ -63,6 +63,9 @@ def __database__(*args):
         elif value == 4:
             return render_template('register.html', dob_message="enter valid dob", username=username, email=email,
                                    name=name)
+        elif value == 5:
+            return render_template('register.html', username_message="invalid username", email=email, name=name,
+                                   dob=dob)
     else:
         username, password = args
         k = Registration.Dbms(username, password)
@@ -70,7 +73,7 @@ def __database__(*args):
         if value is None:
             return render_template('login.html', message="invalid username or password")
         else:
-            return render_template('home.html', username=username, email=value[0], dob=value[1], name=value[2])
+            return render_template('home.html', username=value[0], email=value[1], dob=value[2], name=value[3])
 
 
 @app.route('/forget_password/', methods=['POST', 'GET'])
