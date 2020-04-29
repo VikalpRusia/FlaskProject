@@ -30,7 +30,7 @@ class Dbms(object):
 
     def registering(self):
         try:
-            k = re.match("$[^@]@[^@]$", self.email)
+            k = re.match("^[^@]+@[^@]+$", self.email)
 
             if k is not None:
                 if today > datetime.strptime(self.dob, '%Y-%m-%d').date():
